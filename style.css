@@ -1,0 +1,138 @@
+.html{
+	margin: 0;
+	padding: 0;
+}
+
+.body{
+	margin: 0;
+	padding: 0;
+}
+
+.container {
+	padding: 0;
+	height: 100%;
+	position: relative;
+}
+
+#glCanvas{
+	display: inline;
+	margin-left: 10%;
+	width: 100%;
+	height: 100%;
+	position: fixed;
+}
+
+#2DCanvas{
+	display: inline;
+	margin-left: 10%;
+	width: 100%;
+	height: 100%;
+	position: fixed;
+}
+
+
+.inline {
+	display: inline;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 90px;
+  height: 34px;
+}
+
+.switch input {
+	display:none;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: gray;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: gray;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(55px);
+  -ms-transform: translateX(55px);
+  transform: translateX(55px);
+}
+
+/*------ ADDED CSS ---------*/
+.on
+{
+  display: none;
+}
+
+.on, .off
+{
+  color: white;
+  position: absolute;
+  transform: translate(-50%,-50%);
+  top: 50%;
+  left: 50%;
+  font-size: 12px;
+  font-weight: bold;
+  font-family: Verdana, sans-serif;
+}
+
+input:checked + .slider .on
+{display: block;}
+
+input:checked + .slider .off
+{display: none;}
+
+/*--------- END --------*/
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;}
+  
+.flatBackground{
+	padding: 0;
+	margin: 0;
+	display: block;
+	position: absolute;
+	top: 0%;
+	left: 10%;
+	right: 0%;
+	background-size: cover;
+
+}
+
+.flatBackground img {
+	padding: 0;
+	margin: 0;
+	width: 100%;
+}

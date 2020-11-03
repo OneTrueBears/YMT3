@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale = 1.0, maximum-scale=1.0, user-scalable=no" /> 
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+	<div class="container">
+		<canvas id="glCanvas"></canvas>
+		<h1>YMT</h1>
+		<b>Alpha Version</b>
+		<p>Build 0.0.12</p>
+		<div class="inline">
+		<label class="switch">
+			<input type="checkbox" id="dToggle">
+			<div class="slider round"><!--ADDED HTML -->
+				<span class="off">2D</span>
+				<span class="on">3D</span>
+			</div>
+		</label>
+		</div>
+		<canvas id="flatCanvas"></canvas>
+		<div id="flatBackground" class="flatBackground">
+			<img src="images/conceptBackground.png" class="image" alt="Background from early concept phase">
+		</div>
+		 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.min.js">
+		</script>
+		<script src="threejs.js"></script> 
+	</div>
+	
+</body>
+</html>
