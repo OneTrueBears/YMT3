@@ -33,12 +33,12 @@ gridCtx.fillStyle = "white";
 
 var maxAltitude = 10000;
 var minAltitude = 0;
-var altitude = maxAltitude - minAltitude;
+var totalAltitude = maxAltitude - minAltitude;
 
 var quantity = 10;
 var partition = window.innerHeight/quantity;
 partition = (window.innerHeight - partition)/quantity;
-var mappedAltitude = (maxAltitude-minAltitude)/(window.innerHeight-(partition*2));
+var mappedAltitude = (totalAltitude)/(window.innerHeight-(partition*2));
 
 //writeArticles();
 
@@ -51,46 +51,55 @@ var start = {x: 0, y: 0};
 setTransform();
 
 var mapHeight = mapImage.height * scale;
+var articles = getArticles();
 
 calculateAltitudes();
 
-
+//Calculate and write the altitudes associated with the mountain. 
 function calculateAltitudes(){
 	mapHeight = mapImage.height * scale;
 	var screenOccupationPercentage = (window.innerHeight-partition*2)/mapHeight;
 	sliderCtx.clearRect(0, 0, canvas1.width, canvas1.height);
-	var mapRatio = (maxAltitude-minAltitude)/(mapHeight);
-	//console.log("1 pixel of the map corresponds to " + mapRatio + " ymt");
+	var mapRatio = (totalAltitude)/(mapHeight);
 	for(position = 1; position<=quantity; position++){
-		var float = (maxAltitude + yoff*mapRatio - partition*mapRatio) - (position-1)*(((mapHeight*screenOccupationPercentage)*mapRatio)/quantity);
-		//console.log("yoff: " + yoff);
+		var float = (maxAltitude + yoff*mapRatio - partition*mapRatio) - (position-1)*(((mapHeight*screenOccupationPercentage)*mapRatio)/(quantity-1));
 		var number = Math.trunc(float);
 		sliderCtx.fillStyle = "rgb(255, 255, 255)";
-		if(position > quantity*(2/3)){
+		if(position > quantity*(4/5)){
 			sliderCtx.fillStyle = "rgb(0, 0, 0)";
 		}
 		sliderCtx.fillText(number.toString(), canvas1.width/3, partition*position);
-		gridCtx.beginPath();
+		/*gridCtx.beginPath();
 		gridCtx.rect(0, partition*position, window.innerWidth, 1);
-		gridCtx.stroke();
+		gridCtx.stroke();*/
 	}
-	//writeArticles();
-	//console.log(yoff);
+	scaleArticles();
 }
 
-function writeArticles(){
-	var title = "Is the loss of nature a loss of proximity?";
-	var author = "Irene Alterskjær";
-	var altitude = 5943;
-	positionX = 300 + xoff;
-	positionY = (altitude/10);
-	if(scale > 2){
-		//console.log("True");
-		write(title, 500, 500);
-	}
-	/*else{
-		mapCtx.clearRect(0, 0, canvas2.width, canvas2.height);
+function getArticles(){
+	var articles = document.getElementsByClassName("articleTag");
+	return articles;
+}
+
+function mapAltitudeToScreen(number){
+	window.innerHeight/mapHeight;
+	return altitudePosition;
+}
+
+function scaleArticles(){
+	/*for(var article = 0; article < articles.length; article++){
+		var altitude = articles[article].id; 
+		var newPosX = (xoff/window.innerWidth)*100;
+		var newPosY = (yoff/window.innerHeight)*100;
+		newPosX = newPosX.toString().concat("%");
+		newPosY = newPosY.toString().concat("%");
+		articles[article].style.left = newPosX;
+		articles[article].style.top = newPosY;
 	}*/
+	for(var article = 0; article < articles.length; article++){
+		/*articles[article].style.fontSize = 15/scale;
+		console.log(articles[article]);*/
+	}
 }
 
 function write(newText, x, y){

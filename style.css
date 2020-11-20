@@ -34,6 +34,7 @@ html, body {
 	padding-top: 0%;
 	padding-left: 0%;
 	width: 100%;
+	height: 100%;
 	transform-origin: 0px 0px;
 	transform: translate(0px, 0px) scale(1);
 	transition-duration: 0s;
@@ -51,6 +52,13 @@ html, body {
 	top: 0;
 	left: 0;
 	background: rgb(0,170,233);
-	background: linear-gradient(0deg, rgba(255,243,74,1) 0%, rgba(0,170,233,1) 50%, rgba(217,45,138,1) 100%);
+	background: linear-gradient(0deg, rgba(255,243,74,1) 0%, rgba(217,45,138,1) 50%, rgba(0,170,233,1) 100%);
 	z-index: 21;
+}
+
+.articleTag{
+	font-size: 15px;
+	z-index: 999;
+	position: absolute;
+	transition-duration: 0.1s;
 }
