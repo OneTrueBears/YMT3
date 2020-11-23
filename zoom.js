@@ -106,6 +106,7 @@ map.onmouseup = function(e){
 	panning = false;
 }
 
+//check for touch
 map.ontouchend = function(e){
 	map.style.transitionDuration = "0.3s";
 	panning = false;
