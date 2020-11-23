@@ -11,7 +11,6 @@ mapCtx.canvas.height = window.innerHeight;
 mapCtx.canvas.x = 0;
 mapCtx.canvas.y = 0;
 
-
 var canvas3 = document.getElementById("gridCanvas");
 var gridCtx = canvas3.getContext("2d");
 gridCtx.canvas.width = window.innerWidth;
@@ -36,8 +35,6 @@ var partition = window.innerHeight/quantity;
 partition = (window.innerHeight - partition)/quantity;
 var mappedAltitude = (totalAltitude)/(window.innerHeight-(partition*2));
 
-//writeArticles();
-
 //scrubby zoom. scale determines how far off the zooming is from starting value (1). This value is crucial for most other features.
 var scale = 2;
 var panning = false;
@@ -61,13 +58,13 @@ function calculateAltitudes(){
 	var screenOccupationPercentage = (window.innerHeight-partition*2)/mapHeight;
 	sliderCtx.clearRect(0, 0, canvas1.width, canvas1.height);
 	for(position = 1; position<=quantity; position++){
-		var float = (totalAltitude + yoff*mapRatio - partition*mapRatio) - (position-1)*(((mapHeight*screenOccupationPercentage)*mapRatio)/(quantity-1));
+		var float = (totalAltitude + yoff*mapRatio - partition*mapRatio) - (position-1)*(((mapHeight*screenOccupationPercentage)*mapRatio)/(quantity-1)) + position*3;
 		var number = Math.trunc(float);
 		sliderCtx.fillStyle = "rgb(255, 255, 255)";
 		if(position > quantity*(4/5)){
 			sliderCtx.fillStyle = "rgb(0, 0, 0)";
 		}
-		sliderCtx.fillText(number.toString(), canvas1.width/3, partition*position);
+		sliderCtx.fillText(number.toString(), (canvas1.width/2)-16, partition*position);
 	}
 	scaleArticles();
 }
@@ -107,6 +104,12 @@ map.onmousedown = function(e){
 map.onmouseup = function(e){
 	map.style.transitionDuration = "0.3s";
 	panning = false;
+}
+
+map.ontouchend = function(e){
+	map.style.transitionDuration = "0.3s";
+	panning = false;
+	console.log("Stop touching me");
 }
 
 map.onmousemove = function(e){
