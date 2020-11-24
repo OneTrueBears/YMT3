@@ -48,7 +48,6 @@ console.log("(Map) " + "Height: " + mapImage.height + " - " + "Width: " + mapIma
 
 var mapHeight = map.height * scale;
 var articles = getArticles();
-
 calculateAltitudes();
 
 //Calculate and write the altitudes associated with the mountain. 
@@ -89,9 +88,15 @@ function write(newText, x, y){
 	mapCtx.fillText(newText, x, y);
 }
 
+function updateSliderGradient(){
+	slider.style.transform = "translate(" + "5%" + yoff + "px) scale(" + scale + ")"
+	slider.style.top = (yoff + "px");
+}
+
 //call transformation
 function setTransform(){
 	map.style.transform = "translate(" + xoff + "px, " + yoff + "px) scale(" + scale + ")";
+	updateSliderGradient();
 }
 
 map.onmousedown = function(e){
@@ -148,7 +153,7 @@ map.ontouchmove = function(e){
 map.onwheel = function(e){
 	e.preventDefault();
 	//take the scale into account with the offset
-	if((scale <= 5)&&(scale >= 0.5)){
+	if((scale <= 5)&&(scale >= 0.3)){
 		var xs = (e.clientX - xoff) / scale,
 		ys = (e.clientY - yoff) / scale,
 		delta = (e.wheelDelta ? e.wheelDelta : -e.deltaY);
