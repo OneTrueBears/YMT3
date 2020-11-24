@@ -106,13 +106,6 @@ map.onmouseup = function(e){
 	panning = false;
 }
 
-//check for touch
-map.ontouchend = function(e){
-	map.style.transitionDuration = "0.3s";
-	panning = false;
-	console.log("Stop touching me");
-}
-
 map.onmousemove = function(e){
 	e.preventDefault();         
 	if (!panning) {
@@ -123,6 +116,31 @@ map.onmousemove = function(e){
 	map.style.transitionDuration = "0s";
 	//console.log("x: " + xoff);
 	//console.log("y: " + yoff);
+	calculateAltitudes();
+	setTransform();
+}
+
+//check for touch
+map.ontouchstart = function(e){
+	e.preventDefault();
+	start = {x: e.clientX - xoff, y: e.clientY - yoff};    
+	panning = true;
+}
+
+
+map.ontouchend = function(e){
+	map.style.transitionDuration = "0.3s";
+	panning = false;
+}
+
+map.ontouchmove = function(e){
+	e.preventDefault();         
+	if (!panning) {
+		return;
+	}
+	xoff = (e.clientX - start.x);
+	yoff = (e.clientY - start.y);
+	map.style.transitionDuration = "0s";
 	calculateAltitudes();
 	setTransform();
 }
