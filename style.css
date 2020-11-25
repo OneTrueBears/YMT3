@@ -9,8 +9,10 @@ html, body {
 
 #container{
 	position:relative;
+	opacity: 0;
 	height: 100%;
 	width: 100%;
+	transition-duration: 2s;
 }
 
 .canvas{
@@ -50,16 +52,43 @@ html, body {
 	position: absolute;
 }
 
-#slider{
+#sliderWrapper{
 	min-width: 70px;
 	position: relative;
 	height: 100%;
 	width: 5%;
 	top: 0;
 	left: 0;
-	background: rgb(0,170,233);
-	background: linear-gradient(0deg, rgba(255,243,74,1) 0%, rgba(217,45,138,1) 50%, rgba(0,170,233,1) 100%);
 	z-index: 21;
+}
+
+#sliderCanvas{
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	top: 0;
+	left: 0;
+	z-index: 21;
+}
+
+
+#slider{
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	top: -50vw;
+	left: 0;
+	background: rgb(0,170,233);
+	background: linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(255,243,74,1) 20%, rgba(217,45,138,1) 55%, rgba(0,170,233,1) 80%, rgba(0,0,0,1) 100%);
+	z-index: 20;
+}
+
+#sliderArticleContainer{
+	margin-top: 100%;
+	right: 0%;
+	height: 100%;
+	width: 100%;
+	position: relative;
 }
 
 .articleTag{
@@ -86,8 +115,46 @@ html, body {
 	white-space: nowrap;
 }
 
+#aboutBtn{
+	cursor: pointer;
+}
+
 button{
 	left: 50%;
 	top: 10%;
 	position: absolute;
+}
+
+#starmap{
+	width: 100%;
+	height: 45vw;
+	position: absolute;
+	margin: 0;
+	display: inline-block;
+	opacity: 0;
+	overflow-Y: scroll;
+	overflow-X: hidden;
+	transition-duration: 1.3s;
+}
+
+#starmapImage{
+	width: 100%;
+	height: 150%;
+	position: absolute;
+	margin: 0;
+	display: inherit;
+	opacity: inherit;
+}
+
+#logoGif{
+	position: fixed;
+	opacity: 0;
+	display: block;
+	width: 40vw;
+	height: 20vw;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	transition-duration: 1s;
+	z-index: 999;
 }

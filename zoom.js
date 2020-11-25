@@ -1,8 +1,8 @@
 var canvas1 = document.getElementById("sliderCanvas");
 var sliderCtx = canvas1.getContext("2d");
-var slider = document.getElementById("slider");
+var sliderWrapper = document.getElementById("sliderWrapper");
 sliderCtx.canvas.height = window.innerHeight;
-sliderCtx.canvas.width = slider.offsetWidth;
+sliderCtx.canvas.width = sliderWrapper.offsetWidth;
 
 var canvas2 = document.getElementById("mapCanvas");
 var mapCtx = canvas2.getContext("2d");
@@ -21,6 +21,7 @@ gridCtx.canvas.y = 0;
 var map = document.getElementById("mapWrapper");
 
 var mapImage = document.getElementById("map");
+console.log(document.getElementById("map").getBoundingClientRect().height);
 
 sliderCtx.font = "15px Arial";
 sliderCtx.fillStyle = "white";
@@ -36,19 +37,40 @@ partition = (window.innerHeight - partition)/quantity;
 var mappedAltitude = (totalAltitude)/(window.innerHeight-(partition*2));
 
 //scrubby zoom. scale determines how far off the zooming is from starting value (1). This value is crucial for most other features.
-var scale = 2;
+var scale = 1;
 var panning = false;
 var xoff = (window.innerWidth/2)*-1;
 var yoff = (window.innerHeight/2)*-1;
+var previousYoff = 0;
 var start = {x: 0, y: 0};
-setTransform();
 
 console.log("(Map) " + "Height: " + mapCtx.canvas.height + " - " + "Width: " + mapCtx.canvas.width, "x: " + mapCtx.canvas.x + " - y: " + mapCtx.canvas.y);
 console.log("(Map) " + "Height: " + mapImage.height + " - " + "Width: " + mapImage.width, "x: " + mapImage.x + " - y: " + mapImage.y);
 
-var mapHeight = map.height * scale;
+var mapHeight = map.style.height * scale;
+var sliderArticleContainer = document.getElementById("sliderArticleContainer");
 var articles = getArticles();
 calculateAltitudes();
+
+var aboutButton = document.getElementById("aboutBtn");
+aboutButton.onclick = gotoStarMap;
+
+setTransform();
+
+
+function logoSequence(){
+	document.getElementById("logoGif").style.opacity = 1;
+	document.getElementById("logoGif").style.display = "block";
+	setTimeout(loadPage, 3000);
+}
+
+function loadPage(){
+	document.getElementById("logoGif").style.opacity = 0;
+	setTimeout(function () {
+       document.getElementById("logoGif").style.display = "none";
+	}, 1000);
+	document.getElementById("container").style.opacity = 1;
+}
 
 //Calculate and write the altitudes associated with the mountain. 
 function calculateAltitudes(){
@@ -60,7 +82,7 @@ function calculateAltitudes(){
 		var float = (totalAltitude + yoff*mapRatio - partition*mapRatio) - (position-1)*(((mapHeight*screenOccupationPercentage)*mapRatio)/(quantity-1)) + position*3;
 		var number = Math.trunc(float);
 		sliderCtx.fillStyle = "rgb(255, 255, 255)";
-		if(position > quantity*(4/5)){
+		if((number > 12000)||(number < -2500)){
 			sliderCtx.fillStyle = "rgb(0, 0, 0)";
 		}
 		sliderCtx.fillText(number.toString(), (canvas1.width/2)-16, partition*position);
@@ -89,13 +111,20 @@ function write(newText, x, y){
 }
 
 function updateSliderGradient(){
-	slider.style.transform = "translate(" + "5%" + yoff + "px) scale(" + scale + ")"
-	slider.style.top = (yoff + "px");
+	slider.style.transform = "translate(" + "5%" + yoff + "px) scale(" + scale + ")";
+	slider.style.top = (-(window.innerHeight/4) + yoff + "px");
+	slider.style.height = ((150*scale).toString() + "vw");
+	sliderArticleContainer.style.transform = "translate(" + "5%" + yoff + "px) scale(" + scale + ")";
+	sliderArticleContainer.style.top = (yoff + "px");
+	sliderArticleContainer.style.height = ((100*scale).toString() + "vw");
+	//sliderArticleContainer.style.height = ((document.getElementById("map").getBoundingClientRect().height).toString() + "px");
+	//console.log((window.innerHeight*scale).toString() + "px");
 }
 
 //call transformation
 function setTransform(){
 	map.style.transform = "translate(" + xoff + "px, " + yoff + "px) scale(" + scale + ")";
+	calculateAltitudes();
 	updateSliderGradient();
 }
 
@@ -107,7 +136,6 @@ map.onmousedown = function(e){
 
 //check for mouse-hover
 map.onmouseup = function(e){
-	map.style.transitionDuration = "0.3s";
 	panning = false;
 }
 
@@ -119,9 +147,9 @@ map.onmousemove = function(e){
 	xoff = (e.clientX - start.x);
 	yoff = (e.clientY - start.y);
 	map.style.transitionDuration = "0s";
+	slider.style.transitionDuration = "0s";
 	//console.log("x: " + xoff);
 	//console.log("y: " + yoff);
-	calculateAltitudes();
 	setTransform();
 }
 
@@ -131,7 +159,6 @@ map.ontouchstart = function(e){
 	start = {x: e.clientX - xoff, y: e.clientY - yoff};    
 	panning = true;
 }
-
 
 map.ontouchend = function(e){
 	map.style.transitionDuration = "0.3s";
@@ -146,7 +173,7 @@ map.ontouchmove = function(e){
 	xoff = (e.clientX - start.x);
 	yoff = (e.clientY - start.y);
 	map.style.transitionDuration = "0s";
-	calculateAltitudes();
+	slider.style.transitionDuration = "0s";
 	setTransform();
 }
 
@@ -171,8 +198,35 @@ map.onwheel = function(e){
 		// reverse the offset amount with the new scale
 		xoff = e.clientX - xs * scale;
 		yoff = e.clientY - ys * scale;
-
-		calculateAltitudes();
+		
+		map.style.transitionDuration = "0.3s";
+		slider.style.transitionDuration = "0.3s";
 		setTransform();
 	}      
+}
+
+var starmap = document.getElementById("starmap");
+
+
+function gotoStarMap(){
+	aboutButton.onclick = exitStarMap;
+	aboutButton.textContent = "Map";
+	starmap.style.opacity = "1";
+	//starmap.style.display = "block";
+	map.style.transitionDuration = "1s";
+	slider.style.transitionDuration = "1s";
+	previousYoff = yoff;
+	yoff = window.innerHeight;
+	setTransform();
+}
+
+function exitStarMap(){
+	aboutButton.onclick = gotoStarMap;
+	aboutButton.textContent = "About";
+	map.style.transitionDuration = "1s";
+	slider.style.transitionDuration = "1s";
+	starmap.style.opacity = "0";
+	//starmap.style.display = "none";
+	yoff = previousYoff;
+	setTransform();
 }
