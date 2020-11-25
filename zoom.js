@@ -1,8 +1,8 @@
 var canvas1 = document.getElementById("sliderCanvas");
 var sliderCtx = canvas1.getContext("2d");
 var slider = document.getElementById("slider");
-sliderCtx.canvas.height = window.innerHeight;
-sliderCtx.canvas.width = slider.offsetWidth;
+//sliderCtx.canvas.height = window.innerHeight;
+//sliderCtx.canvas.width = slider.offsetWidth;
 
 var canvas2 = document.getElementById("mapCanvas");
 var mapCtx = canvas2.getContext("2d");
@@ -31,7 +31,7 @@ var minAltitude = 0;
 var totalAltitude = maxAltitude - minAltitude;
 
 var quantity = 10;
-var partition = window.innerHeight/quantity;
+var partition = sliderCtx.canvas.height/quantity;
 partition = (window.innerHeight - partition)/quantity;
 var mappedAltitude = (totalAltitude)/(window.innerHeight-(partition*2));
 
@@ -40,6 +40,7 @@ var scale = 2;
 var panning = false;
 var xoff = (window.innerWidth/2)*-1;
 var yoff = (window.innerHeight/2)*-1;
+var previousYoff = 0;
 var start = {x: 0, y: 0};
 setTransform();
 
@@ -50,6 +51,9 @@ var mapHeight = map.height * scale;
 var articles = getArticles();
 
 calculateAltitudes();
+
+var aboutBtn = document.getElementById("aboutBtn");
+aboutBtn.onclick = function() {toStarMap()};
 
 //Calculate and write the altitudes associated with the mountain. 
 function calculateAltitudes(){
@@ -89,6 +93,13 @@ function write(newText, x, y){
 	mapCtx.fillText(newText, x, y);
 }
 
+function updateSliderGradient(){
+	//slider.style.transform = "translate(" + "5%" + yoff + "px) scale(" + scale + ")"
+	slider.style.top = (yoff + "px");
+	slider.style.height = ((100*scale).toString() + "vw");
+	document.getElementById("sliderPadTop").style.height = ((yoff+((slider.style.height).replace("vw", ""))/2).toString() + "px");
+}
+
 //call transformation
 function setTransform(){
 	map.style.transform = "translate(" + xoff + "px, " + yoff + "px) scale(" + scale + ")";
@@ -106,8 +117,33 @@ map.onmouseup = function(e){
 	panning = false;
 }
 
+map.onmousemove = function(e){
+	e.preventDefault();         
+	if (!panning) {
+		return;
+	}
+	xoff = (e.clientX - start.x);
+	yoff = (e.clientY - start.y);
+	map.style.transitionDuration = "0s";
+	slider.style.transitionDuration = "0s";
+	//console.log("x: " + xoff);
+	//console.log("y: " + yoff);
+	calculateAltitudes();
+	setTransform();
+}
+
+//check for touch
+map.ontouchstart = function(e){
+	e.preventDefault();
+	slider.style.transitionDuration = "0s";
+	start = {x: e.clientX - xoff, y: e.clientY - yoff};    
+	panning = true;
+}
+
+
 map.ontouchend = function(e){
 	map.style.transitionDuration = "0.3s";
+	slider.style.transitionDuration = "0s";
 	panning = false;
 	console.log("Stop touching me");
 }
@@ -122,6 +158,9 @@ map.onmousemove = function(e){
 	map.style.transitionDuration = "0s";
 	//console.log("x: " + xoff);
 	//console.log("y: " + yoff);
+	slider.style.transitionDuration = "0s";
+	console.log(slider.style.transitionDuration);
+	document.getElementById("sliderPadTop").transitionDuration = "0s";
 	calculateAltitudes();
 	setTransform();
 }
@@ -129,7 +168,9 @@ map.onmousemove = function(e){
 map.onwheel = function(e){
 	e.preventDefault();
 	//take the scale into account with the offset
-	if((scale <= 5)&&(scale >= 0.5)){
+	if((scale <= 5)&&(scale >= 0.3)){
+		document.getElementById("sliderPadTop").transitionDuration = "0s";
+		slider.style.transitionDuration = "0s";
 		var xs = (e.clientX - xoff) / scale,
 		ys = (e.clientY - yoff) / scale,
 		delta = (e.wheelDelta ? e.wheelDelta : -e.deltaY);
@@ -150,5 +191,34 @@ map.onwheel = function(e){
 
 		calculateAltitudes();
 		setTransform();
-	}      
+	}
 }
+
+function toStarMap(){
+	map.style.transitionDuration = "1s";
+	slider.style.transitionDuration = "1s";
+	document.getElementById("sliderPadTop").transitionDuration = "1s";
+	previousYoff = yoff;
+	yoff = window.innerHeight;
+	setTransform();
+	console.log("Went to about");
+	document.getElementById("starmapWrapper").style.display = "block";
+	document.getElementById("starmapWrapper").style.opacity = "100%";
+	aboutBtn.textContent = "Map";
+	aboutBtn.onclick = function() {exitStarMap()};
+}
+
+function exitStarMap(){
+	map.style.transitionDuration = "1s";
+	document.getElementById("sliderPadTop").transitionDuration = "1s";
+	document.getElementById("sliderPadTop").height = "100vw";
+	document.getElementById("sliderPadBottom").height = "0vw";
+	document.getElementById("sliderPadTop").top = "0%";
+	yoff = previousYoff;
+	setTransform();
+	console.log("Went back to map");
+	document.getElementById("starmapWrapper").style.display = "none";
+	document.getElementById("starmapWrapper").style.opacity = "0%";
+	aboutBtn.textContent = "About";
+	aboutBtn.onclick = function() {toStarMap()};
+};
