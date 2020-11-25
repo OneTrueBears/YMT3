@@ -39,8 +39,10 @@ var mappedAltitude = (totalAltitude)/(window.innerHeight-(partition*2));
 //scrubby zoom. scale determines how far off the zooming is from starting value (1). This value is crucial for most other features.
 var scale = 1;
 var panning = false;
-var xoff = (window.innerWidth/2)*-1;
-var yoff = (window.innerHeight/2)*-1;
+var xoff = 0;
+var yoff = 0;
+//var xoff = (window.innerWidth/2)*-1;
+//var yoff = (window.innerHeight/2)*-1;
 var previousYoff = 0;
 var start = {x: 0, y: 0};
 
