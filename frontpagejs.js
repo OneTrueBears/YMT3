@@ -54,14 +54,20 @@ var sliderArticleContainer = document.getElementById("sliderArticleContainer");
 var articles = getArticles();
 calculateAltitudes();
 
+var starmap = document.getElementById("starmap");
+
 var aboutButton = document.getElementById("aboutBtn");
 aboutButton.onclick = gotoStarMap;
 
 var audio = new Audio('sounds/Mountain_01.mp3');
 audio.loop = true;
-audio.volume = 0.5;
+audio.volume = 0.2;
 
 document.getElementById("muteImage").style.display = "none";
+
+var movement = false;
+
+//checkForStarMapGo();
 
 setTransform();
 
@@ -69,8 +75,7 @@ setTransform();
 function logoSequence(){
 	document.getElementById("logoGif").style.opacity = 1;
 	document.getElementById("logoGif").style.display = "block";
-	setTimeout(loadPage, 4000);
-	loadpage();
+	setTimeout(loadPage, 2000);
 }
 
 function loadPage(){
@@ -131,9 +136,18 @@ function updateSliderGradient(){
 
 //call transformation
 function setTransform(){
-	map.style.transform = "translate(" + xoff + "px, " + yoff + "px) scale(" + scale + ")";
+	setTimeout(function () {
+		movement = true;
+		map.style.transform = "translate(" + xoff + "px, " + yoff + "px) scale(" + scale + ")";
+		calculateAltitudes();
+		updateSliderGradient();
+		//checkForStarMapGo();
+	}, 0);
+	//movement = false;
+	/*map.style.transform = "translate(" + xoff + "px, " + yoff + "px) scale(" + scale + ")";
 	calculateAltitudes();
 	updateSliderGradient();
+	checkForStarMap();*/
 }
 
 map.onmousedown = function(e){
@@ -213,9 +227,6 @@ map.onwheel = function(e){
 	}      
 }
 
-var starmap = document.getElementById("starmap");
-
-
 function gotoStarMap(){
 	aboutButton.onclick = exitStarMap;
 	aboutButton.textContent = "Map";
@@ -249,4 +260,16 @@ function unmute(){
 	audio.play();
 	document.getElementById("unmuteImage").style.display = "none";
 	document.getElementById("muteImage").style.display = "block";
+}
+
+function checkForStarMapGo(){
+	setTimeout(function(){
+		
+		if(movement){
+			clearInterval();
+		}
+	}, 4000);
+	gotoStarMap()
+	console.log(movement);
+	checkForStarMapGo();
 }
