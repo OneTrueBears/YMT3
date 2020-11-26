@@ -3,7 +3,7 @@ html, body {
 	padding: 0;
 	height: 100%;
 	width: 100%;
-	background-color: #020202;
+	background-color: #030303;
 	overflow: hidden;
 	-webkit-transform: translateZ(0);
 }
@@ -105,7 +105,7 @@ html, body {
 	top: -50vw;
 	left: 0;
 	background: rgb(0,170,233);
-	background: linear-gradient(0deg, rgba(2,2,2,1) 0%, rgba(255,243,74,1) 20%, rgba(217,45,138,1) 55%, rgba(0,170,233,1) 80%, rgba(2,2,2,1) 100%);
+	background: linear-gradient(0deg, rgba(3,3,3,1) 0%, rgba(255,243,74,1) 20%, rgba(217,45,138,1) 55%, rgba(0,170,233,1) 80%, rgba(3,3,3,1) 100%);
 	z-index: 20;
 }
 
