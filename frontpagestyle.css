@@ -3,8 +3,9 @@ html, body {
 	padding: 0;
 	height: 100%;
 	width: 100%;
-	background-color: black;
+	background-color: #020202;
 	overflow: hidden;
+	-webkit-transform: translateZ(0);
 }
 
 #container{
@@ -27,6 +28,31 @@ html, body {
 	top: 0%;
 	z-index: 999;
 	color: white;
+}
+
+#muteContainer{
+	position: absolute;
+	height: 4%;
+	width: 3%;
+	max-width: 10%;
+	right: 2%;
+	top: 5%;
+}
+
+#muteImage{
+	display: block;
+	position: absolute;
+	height: 100%;
+	width: auto;
+	top: 0%;
+}
+
+#unmuteImage{
+	display: block;
+	position: absolute;
+	height: 100%;
+	width: auto;
+	top: 0%;
 }
 
 
@@ -79,16 +105,17 @@ html, body {
 	top: -50vw;
 	left: 0;
 	background: rgb(0,170,233);
-	background: linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(255,243,74,1) 20%, rgba(217,45,138,1) 55%, rgba(0,170,233,1) 80%, rgba(0,0,0,1) 100%);
+	background: linear-gradient(0deg, rgba(2,2,2,1) 0%, rgba(255,243,74,1) 20%, rgba(217,45,138,1) 55%, rgba(0,170,233,1) 80%, rgba(2,2,2,1) 100%);
 	z-index: 20;
 }
 
 #sliderArticleContainer{
-	margin-top: 100%;
-	right: 0%;
+	right: 0;
 	height: 100%;
 	width: 100%;
-	position: relative;
+	top: 0;
+	position: absolute;
+	z-index: 19;
 }
 
 .articleTag{
@@ -105,9 +132,11 @@ html, body {
 }
 
 .articleSliderTag{
+	display: inline-block;
 	font-size: 10px;
 	margin-left: 110%;
-	position: relative;
+	height: 100%;
+	position: absolute;
 	font-size: 25px;
 	color: white;
 	z-index: 999;
@@ -126,6 +155,7 @@ button{
 }
 
 #starmap{
+	-webkit-transform: translateZ(0);
 	width: 100%;
 	height: 45vw;
 	position: absolute;
@@ -138,6 +168,7 @@ button{
 }
 
 #starmapImage{
+	-webkit-transform: translateZ(0);
 	width: 100%;
 	height: 150%;
 	position: absolute;
@@ -146,10 +177,23 @@ button{
 	opacity: inherit;
 }
 
+#YMTLogo{
+	position: absolute;
+	width: 10%;
+	height: auto;
+	right: 16px;
+	right: 16px;
+	top: 1%;
+	right: 1%;
+	z-index: 999;
+	color: white;
+}
+
 #logoGif{
+	-moz-transform: rotate(0);
 	position: fixed;
 	opacity: 0;
-	display: block;
+	display: inline-block;
 	width: 40vw;
 	height: 20vw;
 	top: 50%;

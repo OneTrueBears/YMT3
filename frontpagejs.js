@@ -57,13 +57,20 @@ calculateAltitudes();
 var aboutButton = document.getElementById("aboutBtn");
 aboutButton.onclick = gotoStarMap;
 
+var audio = new Audio('sounds/Mountain_01.mp3');
+audio.loop = true;
+audio.volume = 0.5;
+
+document.getElementById("muteImage").style.display = "none";
+
 setTransform();
 
 
 function logoSequence(){
 	document.getElementById("logoGif").style.opacity = 1;
 	document.getElementById("logoGif").style.display = "block";
-	setTimeout(loadPage, 3000);
+	setTimeout(loadPage, 4000);
+	loadpage();
 }
 
 function loadPage(){
@@ -84,10 +91,9 @@ function calculateAltitudes(){
 		var float = (totalAltitude + yoff*mapRatio - partition*mapRatio) - (position-1)*(((mapHeight*screenOccupationPercentage)*mapRatio)/(quantity-1)) + position*3;
 		var number = Math.trunc(float);
 		sliderCtx.fillStyle = "rgb(255, 255, 255)";
-		if((number > 12000)||(number < -2500)){
-			sliderCtx.fillStyle = "rgb(0, 0, 0)";
+		if((number < 12000)&&(number > -2500)){
+			sliderCtx.fillText(number.toString(), (canvas1.width/2)-16, partition*position);
 		}
-		sliderCtx.fillText(number.toString(), (canvas1.width/2)-16, partition*position);
 	}
 	scaleArticles();
 }
@@ -116,7 +122,7 @@ function updateSliderGradient(){
 	slider.style.transform = "translate(" + "5%" + yoff + "px) scale(" + scale + ")";
 	slider.style.top = (-(window.innerHeight/4) + yoff + "px");
 	slider.style.height = ((150*scale).toString() + "vw");
-	sliderArticleContainer.style.transform = "translate(" + "5%" + yoff + "px) scale(" + scale + ")";
+	//sliderArticleContainer.style.transform = "translate(" + "5%" + yoff + "px) scale(" + scale + ")";
 	sliderArticleContainer.style.top = (yoff + "px");
 	sliderArticleContainer.style.height = ((100*scale).toString() + "vw");
 	//sliderArticleContainer.style.height = ((document.getElementById("map").getBoundingClientRect().height).toString() + "px");
@@ -231,4 +237,16 @@ function exitStarMap(){
 	//starmap.style.display = "none";
 	yoff = previousYoff;
 	setTransform();
+}
+
+function mute(){
+	audio.pause();
+	document.getElementById("muteImage").style.display = "none";
+	document.getElementById("unmuteImage").style.display = "block";
+}
+
+function unmute(){
+	audio.play();
+	document.getElementById("unmuteImage").style.display = "none";
+	document.getElementById("muteImage").style.display = "block";
 }
